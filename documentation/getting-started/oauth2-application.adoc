@@ -32,3 +32,5 @@ To be able to log in using Arkane, we'll have to add oauth2 support to our Sprin
 	<artifactId>spring-cloud-starter-oauth2</artifactId>
 </dependency>
 ```
+
+
