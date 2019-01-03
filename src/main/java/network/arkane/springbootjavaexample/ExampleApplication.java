@@ -10,14 +10,10 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
-import org.springframework.security.oauth2.client.OAuth2RestOperations;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
-import org.springframework.security.oauth2.client.token.AccessTokenRequest;
-import org.springframework.security.oauth2.client.token.DefaultAccessTokenRequest;
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -43,29 +39,29 @@ public class ExampleApplication extends WebSecurityConfigurerAdapter {
     }
 
     private Filter ssoFilter() {
-        OAuth2ClientAuthenticationProcessingFilter facebookFilter = new OAuth2ClientAuthenticationProcessingFilter("/login/arkane");
-        OAuth2RestTemplate facebookTemplate = getFacebookTemplate();
-        facebookFilter.setRestTemplate(facebookTemplate);
-        UserInfoTokenServices tokenServices = new UserInfoTokenServices(facebookResource().getUserInfoUri(), facebook().getClientId());
+        OAuth2ClientAuthenticationProcessingFilter arkaneFilter = new OAuth2ClientAuthenticationProcessingFilter("/login/arkane");
+        OAuth2RestTemplate facebookTemplate = arkaneTemplate();
+        arkaneFilter.setRestTemplate(facebookTemplate);
+        UserInfoTokenServices tokenServices = new UserInfoTokenServices(arkaneResource().getUserInfoUri(), arkane().getClientId());
         tokenServices.setRestTemplate(facebookTemplate);
-        facebookFilter.setTokenServices(tokenServices);
-        return facebookFilter;
+        arkaneFilter.setTokenServices(tokenServices);
+        return arkaneFilter;
     }
 
     @Bean
-    public OAuth2RestTemplate getFacebookTemplate() {
-        return new OAuth2RestTemplate(facebook(), oauth2ClientContext);
+    public OAuth2RestTemplate arkaneTemplate() {
+        return new OAuth2RestTemplate(arkane(), oauth2ClientContext);
     }
 
     @Bean
     @ConfigurationProperties("arkane.client")
-    public AuthorizationCodeResourceDetails facebook() {
+    public AuthorizationCodeResourceDetails arkane() {
         return new AuthorizationCodeResourceDetails();
     }
 
     @Bean
     @ConfigurationProperties("arkane.resource")
-    public ResourceServerProperties facebookResource() {
+    public ResourceServerProperties arkaneResource() {
         return new ResourceServerProperties();
     }
 
