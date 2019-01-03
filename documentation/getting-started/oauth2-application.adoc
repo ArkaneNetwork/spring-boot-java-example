@@ -25,7 +25,7 @@ $ curl https://start.spring.io/starter.tgz -d style=web -d name=simple | tar -xz
 
 === Enabling Arkane Login
 
-To be able to log in using Arkane, we'll have to add OAuth2 support to our Spring Boot application.
+To be able to log in using Arkane, we'll have to `spring-cloud-starter-oauth2` to our maven configuration. This library will bring OAuth2 support to our Spring Boot application.
 
 [source,xml]
 ----
@@ -133,6 +133,7 @@ public OAuth2RestTemplate arkaneTemplate() {
 ----
 
 You can now safely autowire this instance anywhere to call the rest API using the credentials of the user that is logged in.
+In this example, we'll simply call the "get wallets" endpoint to fetch the users' wallets. However, https://docs.arkane.network/[any public rest endpoint] can be called using this method.
 
 [source,java]
 ----
