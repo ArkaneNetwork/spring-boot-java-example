@@ -40,7 +40,8 @@ To be able to log in using Arkane, we'll have to add OAuth2 support to our Sprin
 First of all, we'll need to enable oauth2 support.
 Simply add `@EnableOAuth2Client` and autowire `OAuth2ClientContext` in a configuration class.
 
-Next up, we'll create a new instance of AuthorizationCodeResourceDetails and provide it as a bean.
+Next up, we'll create a new instance of `AuthorizationCodeResourceDetails` and provide it as a bean.
+We'll also populate our application with properties from a property file. In this example, we're using the Arkane Staging environment using a public client we use for every guide (Arketype)
 
 [source,java]
 ----
@@ -51,7 +52,7 @@ public AuthorizationCodeResourceDetails arkane() {
 }
 ----
 
- We'll populate our application with properties from a property file.
+`/src/main/resources/application.properties`
 
 [source,text]
 ----
@@ -75,8 +76,11 @@ public ResourceServerProperties arkaneResource() {
 }
 ----
 
+`/src/main/resources/application.properties`
 [source,text]
+----
 arkane.resource.userInfoUri=${keycloakBaseUrl}/protocol/openid-connect/userinfo
+----
 
 Make one of your configuration classes extend from `WebSecurityConfigurerAdapter` and implement the configure method.
 
@@ -144,3 +148,9 @@ public String wallets() {
 === Full Example
 
 The entire example can be found on https://github.com/ArkaneNetwork/spring-boot-java-example[github].
+
+You can run the application using
+
+[source,bash]
+mvn clean install spring-boot:run
+
